@@ -112,7 +112,7 @@
                                 <!--Cidades-->
                                 <div id="fieldCidades" style="display:none" class="form-group col-12">
                                 <div style="text-align:center">Adicione sua cidade</div>
-                                    <select class="form-control" name="cidades" id="cidades">
+                                    <select class="form-control" name="cidade" id="cidades">
                                         <option value="*">Selecione sua cidade</option>
                                     </select>
                                 </div>
@@ -124,7 +124,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="ni ni-circle-08"></i></span>
                                         </div>
-                                        <input class="form-control" placeholder="Roles" type="text" name="roles">
+                                        <input class="form-control" placeholder="Roles" type="text" name="role">
                                         <button type="button" class="btn btn-primary" id="btnSelect">
                                             <i class="fa fa-plus"></i>
                                         </button>
@@ -148,7 +148,7 @@
             </div>
         </div>
     </div>
-
+<h1>oi</h1>
 </div>
 </div>
 
@@ -162,24 +162,26 @@
             }
         })
 
+        //adicionar roles no select a partir do botão
         $('#btnSelect').click(function() {
             let roles = $('input[name=roles]').val()
             $('#rolesSelect').append(`<option>${roles}</option>`)
             $('input[name=roles]').val('');
             $('#selectRoles').show()
         })
+        //buscar siglas de estados para popular o select
         $.ajax({
             type: 'GET',
             url: "{{route('backEstados')}}",
             success: function(data) {
                 // $('#estado').html(data);
                 for (i in data) {
-                    $('#estado').append(`<option value=${data[i]['id']}>${data[i]['sigla']}</option>`)
+                    $('#estado').append(`<option value=${data[i]['sigla']}>${data[i]['sigla']}</option>`)
                 }
             },
 
         });
-
+        //popular cidades dependendo do estado que estiver selecionado
         $('#estado').change(function() {
 
             let valorEstadoEscolhido = $(this).val()

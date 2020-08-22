@@ -40,6 +40,7 @@ class contratoController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
             'nome' => 'required',
             'cpf' => 'required|max:11',
@@ -47,7 +48,7 @@ class contratoController extends Controller
             'telefone' => 'required',
             'endereco' => 'required',
             'estado' => 'required',
-            'role' => 'required',
+            'roleSelect' => 'required',
             'cidade' => 'required',
         ]);
 
@@ -58,7 +59,6 @@ class contratoController extends Controller
             'telefone' => $request->get('telefone'),
             'endereco' =>    $request->get('endereco'),
             'estado' =>  $request->get('estado'),
-            'role' => $request->get('role'),
             'cidade' => $request->get('cidade')
         ]);
 
