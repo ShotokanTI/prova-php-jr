@@ -14,10 +14,10 @@ class Roles extends Migration
     public function up()
     {
         Schema::create('roles', function (Blueprint $Roles) {
-            $Roles->increments('id')->unique();
+            $Roles->increments('codigo_role')->unique();
             $Roles->string('role',30);
-            $Roles->unsignedInteger('id_roles');
-            $Roles->foreign('id_roles')->references('id')->on('usuario');
+            $Roles->unsignedBigInteger('cpf');
+            $Roles->foreign('cpf')->references('cpf')->on('usuario');
             $Roles->timestamps();
         });
     }

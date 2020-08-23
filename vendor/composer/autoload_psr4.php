@@ -55,7 +55,6 @@ return array(
     'NunoMaduro\\Collision\\' => array($vendorDir . '/nunomaduro/collision/src'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'Lucascudo\\LaravelPtBRLocalization\\' => array($vendorDir . '/lucascudo/laravel-pt-br-localization/src'),
-    'League\\MimeTypeDetection\\' => array($vendorDir . '/league/mime-type-detection/src'),
     'League\\Flysystem\\' => array($vendorDir . '/league/flysystem/src'),
     'League\\CommonMark\\' => array($vendorDir . '/league/commonmark/src'),
     'Laravel\\Ui\\' => array($vendorDir . '/laravel/ui/src'),

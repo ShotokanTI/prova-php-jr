@@ -10,7 +10,7 @@
     'locale' => 'pt_BR',
     'fallback_locale' => 'pt_BR',
     'faker_locale' => 'pt_BR',
-    'key' => 'base64:aoxpZdOII83+M7braYNlDCPmI5i473KkvUDKWBJf4tc=',
+    'key' => 'base64:8yDx/Bcj/DpC1nmz+Z5TzmDCv5FfCG1WRrE3v7/V/ec=',
     'cipher' => 'AES-256-CBC',
     'providers' => 
     array (
@@ -181,7 +181,7 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'C:\\Users\\Matheus\\Desktop\\backupteste\\CRUD-TESTE\\storage\\framework/cache/data',
+        'path' => 'C:\\Users\\Matheus\\Desktop\\LaravelZipp\\ZippTeste\\prova-php-jr\\storage\\framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -347,12 +347,12 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\Users\\Matheus\\Desktop\\backupteste\\CRUD-TESTE\\storage\\app',
+        'root' => 'C:\\Users\\Matheus\\Desktop\\LaravelZipp\\ZippTeste\\prova-php-jr\\storage\\app',
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\Users\\Matheus\\Desktop\\backupteste\\CRUD-TESTE\\storage\\app/public',
+        'root' => 'C:\\Users\\Matheus\\Desktop\\LaravelZipp\\ZippTeste\\prova-php-jr\\storage\\app/public',
         'url' => 'http://localhost/storage',
         'visibility' => 'public',
       ),
@@ -369,7 +369,7 @@
     ),
     'links' => 
     array (
-      'C:\\Users\\Matheus\\Desktop\\backupteste\\CRUD-TESTE\\public\\storage' => 'C:\\Users\\Matheus\\Desktop\\backupteste\\CRUD-TESTE\\storage\\app/public',
+      'C:\\Users\\Matheus\\Desktop\\LaravelZipp\\ZippTeste\\prova-php-jr\\public\\storage' => 'C:\\Users\\Matheus\\Desktop\\LaravelZipp\\ZippTeste\\prova-php-jr\\storage\\app/public',
     ),
   ),
   'hashing' => 
@@ -403,13 +403,13 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => 'C:\\Users\\Matheus\\Desktop\\backupteste\\CRUD-TESTE\\storage\\logs/laravel.log',
+        'path' => 'C:\\Users\\Matheus\\Desktop\\LaravelZipp\\ZippTeste\\prova-php-jr\\storage\\logs/laravel.log',
         'level' => 'debug',
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => 'C:\\Users\\Matheus\\Desktop\\backupteste\\CRUD-TESTE\\storage\\logs/laravel.log',
+        'path' => 'C:\\Users\\Matheus\\Desktop\\LaravelZipp\\ZippTeste\\prova-php-jr\\storage\\logs/laravel.log',
         'level' => 'debug',
         'days' => 14,
       ),
@@ -459,7 +459,7 @@
       ),
       'emergency' => 
       array (
-        'path' => 'C:\\Users\\Matheus\\Desktop\\backupteste\\CRUD-TESTE\\storage\\logs/laravel.log',
+        'path' => 'C:\\Users\\Matheus\\Desktop\\LaravelZipp\\ZippTeste\\prova-php-jr\\storage\\logs/laravel.log',
       ),
     ),
   ),
@@ -516,7 +516,7 @@
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'C:\\Users\\Matheus\\Desktop\\backupteste\\CRUD-TESTE\\resources\\views/vendor/mail',
+        0 => 'C:\\Users\\Matheus\\Desktop\\LaravelZipp\\ZippTeste\\prova-php-jr\\resources\\views/vendor/mail',
       ),
     ),
   ),
@@ -595,7 +595,7 @@
     'lifetime' => '120',
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => 'C:\\Users\\Matheus\\Desktop\\backupteste\\CRUD-TESTE\\storage\\framework/sessions',
+    'files' => 'C:\\Users\\Matheus\\Desktop\\LaravelZipp\\ZippTeste\\prova-php-jr\\storage\\framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -615,9 +615,9 @@
   array (
     'paths' => 
     array (
-      0 => 'C:\\Users\\Matheus\\Desktop\\backupteste\\CRUD-TESTE\\resources\\views',
+      0 => 'C:\\Users\\Matheus\\Desktop\\LaravelZipp\\ZippTeste\\prova-php-jr\\resources\\views',
     ),
-    'compiled' => 'C:\\Users\\Matheus\\Desktop\\backupteste\\CRUD-TESTE\\storage\\framework\\views',
+    'compiled' => 'C:\\Users\\Matheus\\Desktop\\LaravelZipp\\ZippTeste\\prova-php-jr\\storage\\framework\\views',
   ),
   'flare' => 
   array (

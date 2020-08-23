@@ -14,7 +14,6 @@ class usuario extends Model
         'telefone',
         'endereco',
         'estado',
-        'role',
         'cidade'
     ];
 }

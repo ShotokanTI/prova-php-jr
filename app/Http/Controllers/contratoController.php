@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Validator;
 use App\usuario;
 use App\estados;
 use App\cidades;
+use App\role;
 use Illuminate\Http\Request;
 
 class contratoController extends Controller
@@ -40,16 +41,19 @@ class contratoController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'nome' => 'required',
-            'cpf' => 'required|max:11',
-            'data_nascimento' => 'required',
-            'telefone' => 'required',
-            'endereco' => 'required',
-            'estado' => 'required',
-            'role' => 'required',
-            'cidade' => 'required',
-        ]);
+
+
+        // $request->validate([
+        //     'nome' => 'required',
+        //     'cpf' => 'required|max:11',
+        //     'data_nascimento' => 'required',
+        //     'telefone' => 'required',
+        //     'endereco' => 'required',
+        //     'estado' => 'required',
+        //     'cidade' => 'required',
+        // ]);
+
+        $estado = explode('|', $request->get('estado'));
 
         $contrato = new usuario([
             'nome' => $request->get('nome'),
@@ -57,15 +61,20 @@ class contratoController extends Controller
             'data_nascimento' =>  $request->get('data_nascimento'),
             'telefone' => $request->get('telefone'),
             'endereco' =>    $request->get('endereco'),
-            'estado' =>  $request->get('estado'),
-            'role' => $request->get('role'),
+            'estado' =>  $estado[1],
             'cidade' => $request->get('cidade')
         ]);
-
-
-
+        
         $contrato->save();
 
+        $roles = $request->get('rolesSelect');
+        for($i=0; $i<count($roles); $i++){
+        $role = new role([
+            'role' => $roles[$i],
+            'cpf' => $request->get('cpf'),
+        ]);
+            $role->save();
+        }
         return redirect('home')->with('status', 'Inclusão de contrato feito!');
     }
 
@@ -127,8 +136,8 @@ class contratoController extends Controller
     public function exibir()
     {
         $contrato = usuario::all();
-
-        return view('components.edit', compact('contrato'));
+        $role = role::all();
+        return view('components.edit', compact('contrato','role'));
     }
 
     public function exibirDelete()
@@ -159,12 +168,19 @@ class contratoController extends Controller
 
         $colunas = array(
             'id' => $req->get('id'),
-            'cnpj' => $req->get('cnpj'),
-            'razao_social' =>   $req->get('razao_social'),
-            'nome_fantasia' =>  $req->get('nome_fantasia'),
-            'email' => $req->get('email'),
-            'in_User' =>    $req->get('in_User'),
-            'status' => $req->get('status'),
+            'nome' => $req->get('nome'),
+            'cpf' =>   $req->get('cpf'),
+            'data_nascimento' =>  $req->get('data_nascimento'),
+            'telefone' => $req->get('telefone'),
+            'endereco' =>    $req->get('endereco'),
+            'estado' => $req->get('estado'),
+            'cidade' => $req->get('cidade'),
+        );
+
+        $colunasRoles = array(
+            'codigo_role' => $req->get('codigo_role'),
+            'role' => $req->get('role'),
+            'cpf' => $req->get('cpf'),
         );
 
         $colunas = json_encode($colunas);
@@ -175,6 +191,17 @@ class contratoController extends Controller
                 usuario::where('id', $colunas['id'][$i])->update([$coluna => $valor[$i]]);
             }
         }
+
+        $colunasRoles = json_encode($colunasRoles);
+        $colunasRoles = json_decode($colunasRoles, true);
+
+        for ($i = 0; $i < count($colunasRoles['codigo_role']); $i++) {
+            foreach ($colunasRoles as $coluna => $valor) {
+                role::where('codigo_role', $colunasRoles['codigo_role'][$i])->update([$coluna => $valor[$i]]);
+            }
+        }
+
+        return redirect('/')->with('status', 'Edicao de usuario feito!');
     }
     /**
      * Remove the specified resource from storage.
@@ -199,8 +226,9 @@ class contratoController extends Controller
         return $result;
     }
 
-    public function backCidadesByEstado($idEstado){
-        $result = cidades::where('estado_id',$idEstado)->get();
+    public function backCidadesByEstado($idEstado)
+    {
+        $result = cidades::where('estado_id', $idEstado)->get();
         return $result;
     }
 }

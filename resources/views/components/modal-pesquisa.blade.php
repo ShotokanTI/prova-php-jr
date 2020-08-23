@@ -8,7 +8,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <h1 class="modal-title" id="exampleModalLabel">DELETAR DADOS</h1>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -18,13 +18,13 @@
                     <tr>
                         <th>Deletar</th>
                         <th>ID</th>
-                        <th>CNPJ</th>
-                        <th>RAZAO_SOCIAL</th>
-                        <th>NOME_FANTASIA</th>
-                        <th>EMAIL</th>
-                        <th>in_User</th>
-                        <th>LOGOMARCA</th>
-                        <th>STATUS</th>
+                        <th>NOME</th>
+                        <th>CPF</th>
+                        <th>DATA NASCIMENTO</th>
+                        <th>TELEFONE</th>
+                        <th>ENDERECO</th>
+                        <th>ESTADO</th>
+                        <th>CIDADE</th>
                     </tr>
                     @foreach($result as $item)
                     <tbody class="list">
@@ -37,13 +37,13 @@
                             </form>
                         </td>
                         <td>{{$item->id}}</td>
-                        <td>{{$item->cnpj}}</td>
-                        <td>{{$item->razao_social}}</td>
-                        <td>{{$item->nome_fantasia}}</td>
-                        <td>{{$item->email}}</td>
-                        <td>{{$item->in_User}}</td>
-                        <td>{{$item->logomarca}}</td>
-                        <td>{{$item->status}}</td>
+                        <td>{{$item->nome}}</td>
+                        <td>{{$item->cpf}}</td>
+                        <td>{{$item->data_nascimento}}</td>
+                        <td>{{$item->telefone}}</td>
+                        <td>{{$item->endereco}}</td>
+                        <td>{{$item->estado}}</td>
+                        <td>{{$item->cidade}}</td>
 
 
 
@@ -60,7 +60,7 @@
 
 
 <script>
-    function pergunta(){
+    function pergunta() {
         return confirm("deseja excluir este dado?")
     }
     $(document).ready(function() {
@@ -71,17 +71,19 @@
             let url = '{{ route("homeAjax.destroy", ":id") }}';
             url = url.replace(':id', id);
             $.ajax({
-                type:'DELETE',
-                url:url,
-                data:{_token: "{{ csrf_token() }}"},
-                success:function(response){
+                type: 'DELETE',
+                url: url,
+                data: {
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(response) {
                     console.log(response);
                     alert('deletado')
                     location.reload();
 
 
                 },
-                error:function(error){
+                error: function(error) {
 
                 }
             })
