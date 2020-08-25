@@ -1,9 +1,12 @@
 <x-argon-css />
 <style>
    body {
-   background-color: #ffff;
+      background-color: #ffff;
    }
 </style>
+<title>CRUD ZIPP</title>
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="https://comprezipp.com/favicon.ico">
 @include('layouts.navbars.navs.auth')
 <x-modal_role_edit />
 <div class="container-fluid" style="padding-top:8vw">
@@ -33,7 +36,7 @@
                      <div style="display:flex">
                         @csrf
                         <button style="background-color: #111;" type="button" class="btn" data-toggle="modal" data-target="#modalRole">
-                        <i class="fas fa-plus-circle"></i> Adicionar role
+                           <i class="fas fa-plus-circle"></i> Adicionar role
                         </button>
                         <input type="text" hidden value="role" name="role">
                         <input name="search" style="display:inline;width:15vw" id="tableSearch" class="form-control" type="text" placeholder="Buscar por role ou cpf" aria-label="Search">
@@ -55,7 +58,7 @@
          </tr>
       </thead>
       <tbody class="list">
-          
+
          @if($total_rows)
          <td style="font-size:1em;color:#A6A619">Nenhuma informação na base de dados <i class="fas fa-exclamation-triangle"></i></td>
          @else
