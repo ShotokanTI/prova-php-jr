@@ -9,9 +9,9 @@
 
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <title>{{ config('app.name', 'Argon Dashboard') }}</title>
+  <title>CRUD ZIPP</title>
   <!-- Favicon -->
-  <link href="{{ asset('argon') }}/img/brand/favicon.png" rel="icon" type="image/png">
+  <link rel="icon" type="image/x-icon" href="https://comprezipp.com/favicon.ico">
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
   <!-- Icons -->
@@ -20,8 +20,6 @@
   <!-- Argon CSS -->
   <link type="text/css" href="{{ asset('argon') }}/css/argon.css?v=1.0.0" rel="stylesheet">
   <script src="{{ asset('argon') }}/vendor/jquery/dist/jquery.min.js"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CRUD SUPERA</title>
   <link href=" {{ asset('argon') }}/css/argon.css " rel="stylesheet" type="text/css" />
   <link href="{{ asset('argon') }}/vendor/nucleo/css/nucleo.css" rel="stylesheet">
   <link href="{{ asset('argon') }}/vendor/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">

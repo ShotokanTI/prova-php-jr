@@ -41,7 +41,7 @@
                                 </div>
                             </div>
                             <!--DATA NASCIMENTO-->
-                            <div class="form-group col-10">
+                            <div class="form-group col-12">
                                 <div class="input-group input-group-alternative mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="ni ni-badge"></i></span>
@@ -50,7 +50,7 @@
                                 </div>
                             </div>
                             <!--TELEFONE-->
-                            <div class="form-group col-6">
+                            <div class="form-group col-12">
                                 <div class="input-group input-group-alternative mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="ni ni-email-83"></i></span>
@@ -102,8 +102,8 @@
 
                                 <select class="form-control" name="rolesSelect[]" id="rolesSelect" multiple="multiple">
                                 </select>
+                                <button style="float:right" type="button" id="limparSelect" class="btn btn-primary">Limpar roles</button>
                             </div>
-
 
                             <x-panel />
                     </form>
@@ -118,6 +118,12 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
+
+        $('#limparSelect').click(function(){
+            $('#rolesSelect').empty();
+        })
+
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
