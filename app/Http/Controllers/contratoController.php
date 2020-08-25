@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 use App\usuario;
 use App\estados;
 use App\cidades;
 use App\role;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class contratoController extends Controller
@@ -19,7 +21,11 @@ class contratoController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $contrato = DB::table('usuario')->paginate(5);
+        $total_rows = DB::table('usuario')->get();
+        $total_rows = $total_rows->count() == 0;
+
+        return view('index')->with(compact('contrato'))->with('total_rows', $total_rows);
     }
 
 
@@ -43,15 +49,16 @@ class contratoController extends Controller
     {
 
 
-        // $request->validate([
-        //     'nome' => 'required',
-        //     'cpf' => 'required|max:11',
-        //     'data_nascimento' => 'required',
-        //     'telefone' => 'required',
-        //     'endereco' => 'required',
-        //     'estado' => 'required',
-        //     'cidade' => 'required',
-        // ]);
+        $request->validate([
+            'nome' => 'required',
+            'cpf' => 'required|max:11',
+            'data_nascimento' => 'required',
+            'telefone' => 'required',
+            'endereco' => 'required',
+            'estado' => 'required',
+            'cidade' => 'required',
+            'rolesSelect' => 'required'
+        ]);
 
         $estado = explode('|', $request->get('estado'));
 
@@ -64,18 +71,25 @@ class contratoController extends Controller
             'estado' =>  $estado[1],
             'cidade' => $request->get('cidade')
         ]);
-        
+
         $contrato->save();
 
+        //pegando array de roles
         $roles = $request->get('rolesSelect');
-        for($i=0; $i<count($roles); $i++){
-        $role = new role([
-            'role' => $roles[$i],
-            'cpf' => $request->get('cpf'),
-        ]);
+
+        for ($i = 0; $i < count($roles); $i++) {
+
+            $role = new role([
+                'role' => $roles[$i],
+                'cpf' => $request->get('cpf'),
+            ]);
+
+            //retorna valores unicos para não ter duplicação na base de dados.
+            $roles = array_unique($roles);
+            //salva os roles e os cpfs
             $role->save();
         }
-        return redirect('home')->with('status', 'Inclusão de contrato feito!');
+        return redirect('/')->with('status', 'Inclusão de contrato feito!');
     }
 
     /**
@@ -84,43 +98,8 @@ class contratoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id, Request $escolhido)
+    public function show()
     {
-
-        function formatCnpjCpf($id)
-        {
-            $cnpj_cpf = preg_replace("/\D/", '', $id);
-
-            if (strlen($cnpj_cpf) === 11) {
-                return preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "\$1.\$2.\$3-\$4", $cnpj_cpf);
-            }
-
-            return preg_replace("/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/", "\$1.\$2.\$3/\$4-\$5", $cnpj_cpf);
-        }
-        // $cnpj = $id->get('cnpj');
-        // $razaosocial = $id->get('razaosocial');
-        // $nomefantasia = $id->get('nomefantasia');
-
-
-        $escolhido = $escolhido->get('escolhido');
-        if ($escolhido == 'cnpj') {
-            $id = formatCnpjCpf($id);
-        }
-        // $busca = array('cnpj' => $cnpj, 'razao_social' => $razaosocial, 'nome_fantasia' => $nomefantasia);
-
-        // foreach ($busca as $key => $buscar) {
-
-        //     if ($buscar != '') {
-
-        if (!is_null($result = usuario::where($escolhido, $id)->get()->first())) {
-            $result = usuario::where($escolhido, $id)->get();
-            return view('components.search', compact('result'));
-        } else {
-
-            return view('components.form-search', compact('escolhido'));
-        }
-        // }
-
     }
 
 
@@ -133,11 +112,45 @@ class contratoController extends Controller
     public function edit($id)
     {
     }
-    public function exibir()
+
+    public function search(Request $search)
     {
-        $contrato = usuario::all();
-        $role = role::all();
-        return view('components.edit', compact('contrato','role'));
+        // saber de onde está vindo a request root ou role
+        $url = $search->fullUrl();
+        $OriginRequest = strpos((string)$url, 'role');
+        //se não for role,faz a busca para a pagina inicial
+        if (!$OriginRequest) {
+            $contrato = usuario::where('cpf', $search->get('search'))->orWhere('nome', 'like', '%' . $search->get('search') . '%')->paginate();
+
+            $total_rows = $contrato->count();
+            if ($total_rows <= 0) {
+                return back()->with('error', 'O item buscado ' . $_GET['search'] . ' não existe no banco de dados');
+            } else {
+                $total_rows = false;
+                return view('index', compact('contrato'))->with(compact('total_rows'));
+            }
+        }
+        //se for role,faz a busca para a pagina role
+        $role = role::where('role', 'like', '%' . $search->get('search') . '%')->orWhere('cpf', $search->get('search'))->paginate();
+
+        $total_rows = $role->count();
+
+        if ($total_rows <= 0) {
+            return back()->with('error', 'O item buscado ' . $_GET['search'] . ' não existe no banco de dados');
+        } else {
+            $total_rows = false;
+            return view('role', compact('role'))->with(compact('total_rows'));
+        }
+    }
+
+
+
+    public function exibirRole()
+    {
+        $role = DB::table('roles')->paginate(5);
+        $total_rows = DB::table('roles')->get();
+        $total_rows = $total_rows->count() == 0;
+        return view('role', ['role' => $role])->with(compact('total_rows'));
     }
 
     public function exibirDelete()
@@ -157,47 +170,57 @@ class contratoController extends Controller
     {
     }
 
-    public function updateTable(Request $req)
+    public function updateRoles(Request $req)
     {
-        // if ($req->hasFile('logomarca')) {
-        //     foreach ($req->file('logomarca') as $item) {
-        //         $filename = time() . '_' . $item->getClientOriginalName();
-        //         $item->move('public/logomarca', $filename);
-        //     }
-        // }
+        $req->validate([
+            'role' => 'required'
+        ]);
 
-        $colunas = array(
-            'id' => $req->get('id'),
-            'nome' => $req->get('nome'),
-            'cpf' =>   $req->get('cpf'),
-            'data_nascimento' =>  $req->get('data_nascimento'),
-            'telefone' => $req->get('telefone'),
-            'endereco' =>    $req->get('endereco'),
-            'estado' => $req->get('estado'),
-            'cidade' => $req->get('cidade'),
-        );
-
-        $colunasRoles = array(
-            'codigo_role' => $req->get('codigo_role'),
-            'role' => $req->get('role'),
-            'cpf' => $req->get('cpf'),
-        );
-
-        $colunas = json_encode($colunas);
-        $colunas = json_decode($colunas, true);
-
-        for ($i = 0; $i < count($colunas['id']); $i++) {
-            foreach ($colunas as $coluna => $valor) {
-                usuario::where('id', $colunas['id'][$i])->update([$coluna => $valor[$i]]);
+        if (!empty($req->get('codigo_role'))) {
+            $colunasRoles = array(
+                'codigo_role' => $req->get('codigo_role'),
+                'role' => $req->get('role'),
+            );
+        }
+        if (isset($colunasRoles)) {
+            foreach ($colunasRoles as $coluna => $valor) {
+                role::where('codigo_role',$req->get('codigo_role'))->update([$coluna => $valor]);
             }
         }
+        return redirect('/roles')->with('status', 'Edicao de usuario feito!');
+    }
 
-        $colunasRoles = json_encode($colunasRoles);
-        $colunasRoles = json_decode($colunasRoles, true);
+    public function updateTable(Request $req)
+    {
 
-        for ($i = 0; $i < count($colunasRoles['codigo_role']); $i++) {
-            foreach ($colunasRoles as $coluna => $valor) {
-                role::where('codigo_role', $colunasRoles['codigo_role'][$i])->update([$coluna => $valor[$i]]);
+        $req->validate([
+            'nome' => 'required',
+            'cpf' => 'required|max:11',
+            'data_nascimento' => 'required',
+            'telefone' => 'required',
+            'endereco' => 'required',
+            'estado' => 'required',
+            'cidade' => 'required',
+        ]);
+
+        if (!empty($req->get('id'))) {
+            $estado = explode('|', $req->get('estado'));
+
+            $colunas = array(
+                'id' => $req->get('id'),
+                'nome' => $req->get('nome'),
+                'cpf' =>   $req->get('cpf'),
+                'data_nascimento' =>  $req->get('data_nascimento'),
+                'telefone' => $req->get('telefone'),
+                'endereco' =>    $req->get('endereco'),
+                'estado' => $estado[1],
+                'cidade' => $req->get('cidade'),
+            );
+        }
+
+        if (isset($colunas)) {
+            foreach ($colunas as $coluna => $valor) {
+                usuario::where('id', $req->get('id'))->update([$coluna => $valor]);
             }
         }
 
@@ -212,10 +235,15 @@ class contratoController extends Controller
     public function destroy($id)
     {
 
-        $contrato = usuario::where('id', $id)->delete();
 
-        // return redirect('/home')->with('status','Exclusão bem sucedida');
-        return $contrato;
+        $id = (string)$id;
+        if (strlen($id) < 11) {
+            role::where('codigo_role', $id)->delete();
+            return redirect('/roles')->with('status', 'Exclusão bem sucedida');
+        } else {
+            usuario::where('cpf', $id)->delete();
+            return redirect('/')->with('status', 'Exclusão bem sucedida');
+        }
     }
 
 
@@ -230,5 +258,30 @@ class contratoController extends Controller
     {
         $result = cidades::where('estado_id', $idEstado)->get();
         return $result;
+    }
+
+    public function addRole(Request $request)
+    {
+        $roles = $request->get('rolesSelect');
+
+        for ($i = 0; $i < count($roles); $i++) {
+            $role = new role([
+                'role' => $roles[$i],
+                'cpf' => $request->get('cpf'),
+            ]);
+
+            $achoucpf = usuario::where('cpf', $request->get('cpf'))->get();
+            $achourole = role::where('role', $roles[$i])->get();
+
+
+            if ($achoucpf->count() <= 0) {
+                return back()->with('error', 'O CPF inserido ' . $request->get('cpf') . ' não existe no banco de dados portando não é possivel relacionar com o role ' . $roles[$i]);
+            } else if ($achourole->count() > 0 && $achoucpf->count() > 0) {
+                return back()->with('error', 'O Role '.$roles[$i]. ' para este cpf já existe no banco de dados');
+            } else {
+                $role->save();
+            }
+        }
+        return redirect('/roles')->with('status', 'Inclusão de contrato feito!');
     }
 }

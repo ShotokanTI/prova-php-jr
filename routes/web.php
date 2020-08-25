@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-	return view('home');
-});
+Route::get('/','contratoController@index')->name('/');
 
 Auth::routes();
 
@@ -34,11 +32,17 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::get('home', 'contratoController@index')->name('home');
-Route::post('homeAjax/exibir', 'contratoController@exibir')->name('homeAjax/exibir');
+Route::get('roles','contratoController@exibirRole')->name('roles');
+
+Route::post('addRole','contratoController@addRole')->name('addRole');
+
 Route::post('homeAjax/exibirDelete','contratoController@exibirDelete')->name('homeAjax/exibirDelete');
-Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
+
 Route::get('backEstados','contratoController@backEstados')->name('backEstados');
 Route::get('backCidades/{id}','contratoController@backCidadesByEstado')->name('backCidades');
-Route::post('search', 'contratoController@show')->name('search');
+
 Route::post('homeAjax/updateTable','contratoController@updateTable')->name('homeAjax/updateTable');
+Route::post('homeAjax/updateRoles','contratoController@updateRoles')->name('homeAjax/updateRoles');
 Route::resource('homeAjax', 'contratoController');
+
+Route::get('search','contratoController@search')->name('search');

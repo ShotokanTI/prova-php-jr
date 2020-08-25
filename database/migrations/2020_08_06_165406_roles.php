@@ -17,7 +17,7 @@ class Roles extends Migration
             $Roles->increments('codigo_role')->unique();
             $Roles->string('role',30);
             $Roles->unsignedBigInteger('cpf');
-            $Roles->foreign('cpf')->references('cpf')->on('usuario');
+            $Roles->foreign('cpf')->references('cpf')->on('usuario')->onDelete('cascade');
             $Roles->timestamps();
         });
     }

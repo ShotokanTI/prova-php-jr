@@ -15,13 +15,13 @@ class Usuario extends Migration
     {
         Schema::create('usuario', function (Blueprint $usuario) {
             $usuario->increments('id')->unique();
-            $usuario->char('nome');
+            $usuario->string('nome');
             $usuario->bigInteger('cpf')->unique()->unsigned();
             $usuario->date('data_nascimento');
             $usuario->bigInteger('telefone')->unsigned();
             $usuario->string('endereco',40);
-            $usuario->char('estado',2);
-            $usuario->char('cidade',20);
+            $usuario->string('estado',2);
+            $usuario->string('cidade',40);
             $usuario->timestamps();
         });
 

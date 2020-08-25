@@ -1,59 +1,32 @@
-<nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
-    <div class="container-fluid">
-        <!-- Brand -->
-        <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="{{ route('home') }}">{{ __('') }}</a>
-        
-        <!-- User -->
-        
-        <ul class="navbar-nav align-items-center d-none d-md-flex">
-            <li class="nav-item dropdown">
-                <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <div class="media align-items-center">
-                        <span class="avatar avatar-sm rounded-circle">
-                            <img alt="Image placeholder" src="{{ asset('argon') }}/img/theme/team-4-800x800.jpg">
-                        </span>
-                        <div class="media-body ml-2 d-none d-lg-block">
-                            
-                        </div>
-                    </div>
-                </a>
-                <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-right">
-                    <div class=" dropdown-header noti-title">
-                        <h6 class="text-overflow m-0">{{ __('Welcome!') }}</h6>
-                    </div>
-                    <a href="{{ route('profile.edit') }}" class="dropdown-item">
-                        <i class="ni ni-single-02"></i>
-                        <span>{{ __('Meu perfil') }}</span>
-                    </a>
-                    <a href="{{route('home')}}" class="dropdown-item">
-                        <i class="ni ni-settings-gear-65"></i>
-                        <span>{{ __('CRUD') }}</span>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault();
-                    document.getElementById('logout-form').submit();">
-                        <i class="ni ni-user-run"></i>
-                        <span>{{ __('Logout') }}</span>
-                    </a>
-                </div>
-            </li>
-        </ul>
-    </div>
-</nav>
-<!-- Top navbar -->
-<div class="header bg-gradient-primary py-7 py-lg-8">
-    <div class="container">
-        <div class="header-body text-center mb-7">
-            <div class="row justify-content-center">
-                <div class="col-lg-5 col-md-6">
-                    <h1 class="text-white">{{ __('TESTE ZIPP') }}</h1>
-                </div>
-            </div>
+<style>
+    .espacamento {
+        padding-left: 2vw;
+        padding-top: 0.7vw;
+    }
+
+
+</style>
+<nav class="navbar navbar-dark bg-dark" style="background-color:#111!important">
+
+    <a style="color:#fff" target="_blank" href="https://github.com/ShotokanTI/prova-php-jr">
+        <i style="font-size:37px" class="fab fa-github"></i>
+    </a>
+    <div style="display:flex">
+        <div class="espacamento">
+            <span style="color:#fff">{{ __('CRUD') }}</span>
         </div>
-    </div>
-    <div class="separator separator-bottom separator-skew zindex-100">
-        <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
-            <polygon class="fill-default" points="2560 0 2560 100 0 100"></polygon>
-        </svg>
-    </div>
-</div>
+        <a target="_blank" href="https://comprezipp.com/">
+            <img src="https://comprezipp.com/assets/images/logo.png" width="60px" height="40px">
+        </a>
+        <div class="espacamento">
+            <a style="color: #fff;" href="{{ route('roles') }}">
+                <span>EDITAR ROLES</span>
+            </a>
+        </div>
+        <div class="espacamento">
+            <a href="{{ route('/') }}">
+                <span style="color:#fff;">{{ __('ADICIONAR USUARIO') }}</span>
+            </a>
+        </div>
+      
+</nav>
